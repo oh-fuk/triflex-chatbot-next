@@ -207,7 +207,7 @@
   widget.innerHTML = `
     <div id="cb-box">
       <div id="cb-header">
-        <div id="cb-avatar"><img src="${API}/static/bot-icon.png" alt="bot" onerror="this.parentNode.innerHTML='🤖'"></div>
+        <div id="cb-avatar"><img src="${API}/bot-icon.png" alt="bot" onerror="this.parentNode.innerHTML='🤖'"></div>
         <div id="cb-header-info">
           <div id="cb-bot-name">Triflex Assistant</div>
           <div id="cb-status">Online — Ready to help</div>
@@ -223,7 +223,7 @@
       </div>
     </div>
     <button id="cb-toggle" aria-label="Open chat">
-      <img src="${API}/static/bot-icon.png" alt="chat">
+      <img src="${API}/bot-icon.png" alt="chat">
     </button>
   `;
   document.body.appendChild(widget);
