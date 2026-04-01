@@ -68,7 +68,7 @@
     }
     @keyframes cbFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
     .cb-bubble.bot { background: #f1f5f9; color: #1e293b; border-bottom-left-radius: 4px; }
-    .cb-bubble.user { background: #e0f2fe; color: #0c4a6e; border-bottom-right-radius: 4px; }
+    .cb-bubble.user { background: #e0f2fe; color: #0c4a6e; border-bottom-right-radius: 4px; min-width: 80px; }
     .cb-delivered { font-size: 0.7rem; color: #94a3b8; text-align: right; margin-top: 2px; }
 
     .cb-typing-row { display: flex; align-items: flex-end; gap: 0.5rem; }
