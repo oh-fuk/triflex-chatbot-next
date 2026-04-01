@@ -1,8 +1,3 @@
-import fs from "fs";
-import path from "path";
-
-const CONFIG_FILE = path.join(process.cwd(), "chatbot-config.json");
-
 export interface BotConfig {
   bot_name: string;
   welcome_message: string;
@@ -15,7 +10,7 @@ export const DEFAULT_SYSTEM_PROMPT = `You are a clever, persuasive AI sales assi
 
 RESPONSE FORMAT: Use bullet points starting with • on new lines. Use *asterisks* for bold. End with CTA.
 
-CARD RESPONSES - respond with ONLY JSON for these:
+CARD RESPONSES - respond with ONLY JSON for these topics:
 
 CONTACT: {"type":"contact","text":"Let's connect! 🚀","data":{"email":"triflexmedia@gmail.com","phone":"+1 (223) 901-4652","whatsapp":"+1 (223) 901-4652","address":"San Antonio, Texas","response_time":"Within 24 hours"}}
 
@@ -33,24 +28,20 @@ Use mixed when user shows buying intent - append contact card at end.
 Company: Triflex Media | San Antonio TX | Founded 2016 | 2.7k+ clients | 90% success rate
 Contact: triflexmedia@gmail.com | +1 (223) 901-4652`;
 
+// In-memory config store (resets on cold start, but works on Vercel)
+let _config: BotConfig | null = null;
+
 export function loadConfig(): BotConfig {
-  const defaults: BotConfig = {
+  if (_config) return _config;
+  return {
     bot_name: process.env.NEXT_PUBLIC_BOT_NAME || "Triflex Media Assistant",
     welcome_message: process.env.NEXT_PUBLIC_WELCOME_MESSAGE || "👋 Hi! I'm your Triflex Media assistant. How can I help you today?",
-    color: process.env.NEXT_PUBLIC_BOT_COLOR || "#4f46e5",
+    color: process.env.NEXT_PUBLIC_BOT_COLOR || "#0ea5e9",
     system_prompt: DEFAULT_SYSTEM_PROMPT,
     model: "gemini-2.5-flash",
   };
-  try {
-    if (fs.existsSync(CONFIG_FILE)) {
-      const saved = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf-8"));
-      return { ...defaults, ...Object.fromEntries(Object.entries(saved).filter(([, v]) => v)) };
-    }
-  } catch { }
-  return defaults;
 }
 
 export function saveConfig(config: Partial<BotConfig>) {
-  const current = loadConfig();
-  fs.writeFileSync(CONFIG_FILE, JSON.stringify({ ...current, ...config }, null, 2));
+  _config = { ...loadConfig(), ...config };
 }
